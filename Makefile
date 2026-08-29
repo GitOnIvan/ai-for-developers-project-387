@@ -7,7 +7,7 @@ init:
 
 # 2. API-First контракты (агент должен запускать это при изменении API)
 generate:
-	npx tsp compile ./tsp/main.tsp --emitters @typespec/openapi3 --output-dir . && \
+	npx tsp compile ./tsp/main.tsp
 	cd ./back && ./mvnw compile && \
 	cd ./front && npm run generate-client
 
