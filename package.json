@@ -1,25 +1,12 @@
 {
   "name": "ai-for-developers-project-386",
   "version": "1.0.0",
-  "description": "[![Actions Status](https://github.com/GitOnIvan/ai-for-developers-project-386/actions/workflows/hexlet-check.yml/badge.svg)](https://github.com/GitOnIvan/ai-for-developers-project-386/actions)",
-  "main": "index.js",
+  "private": true,
+  "type": "module",
+  "workspaces": [
+    "tsp"
+  ],
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/GitOnIvan/ai-for-developers-project-386.git"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "type": "commonjs",
-  "bugs": {
-    "url": "https://github.com/GitOnIvan/ai-for-developers-project-386/issues"
-  },
-  "homepage": "https://github.com/GitOnIvan/ai-for-developers-project-386#readme",
-  "devDependencies": {
-    "@typespec/compiler": "^1.15.0",
-    "@typespec/openapi3": "^1.15.0"
+    "tsp:compile": "npm run compile --workspace=contracts"
   }
 }
