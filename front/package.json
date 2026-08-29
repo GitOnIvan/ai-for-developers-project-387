@@ -8,22 +8,38 @@
     "build": "vue-tsc -b && vite build",
     "preview": "vite preview",
     "generate-client": "orval",
+    "test": "vitest run",
+    "test:watch": "vitest",
     "lint": "prettier --check src/",
     "lint:format": "prettier --check src/",
     "format": "prettier --write src/"
   },
   "dependencies": {
+    "@vuepic/vue-datepicker": "^14.0.0",
     "axios": "^1.20.0",
-    "vue": "^3.5.41"
+    "vue": "^3.5.41",
+    "vue-router": "^5.3.0"
   },
   "devDependencies": {
+    "@testing-library/jest-dom": "^7.0.1",
+    "@testing-library/user-event": "^14.6.6",
+    "@testing-library/vue": "^8.1.0",
     "@types/node": "^24.13.3",
     "@vitejs/plugin-vue": "^6.0.8",
+    "@vue/test-utils": "^2.5.0",
     "@vue/tsconfig": "^0.9.1",
+    "jsdom": "^30.0.1",
+    "msw": "^2.15.0",
     "orval": "^8.27.0",
     "prettier": "3.9.6",
     "typescript": "~6.0.2",
     "vite": "^8.2.2",
+    "vitest": "^4.1.11",
     "vue-tsc": "^3.3.11"
+  },
+  "msw": {
+    "workerDirectory": [
+      "public"
+    ]
   }
 }
