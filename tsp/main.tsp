@@ -1,11 +1,9 @@
 import "@typespec/http";
-import "@typespec/rest";
-import "@typespec/openapi3"; // Нужен для генерации файлов openapi.yaml
-import "@typespec/openapi";  // ИСПРАВЛЕНО: Добавляем, чтобы стал доступен @operationId
+import "@typespec/openapi3"; // Для генерации openapi.yaml
+import "@typespec/openapi";  // ОБЯЗАТЕЛЬНО: подгружает сам декоратор @operationId
 
 using TypeSpec.Http;
-using TypeSpec.Rest;
-using OpenAPI; // 2. ДОБАВИТЬ ЭТУ СТРОКУ
+using TypeSpec.OpenAPI;     // ИСПРАВЛЕНО: правильное пространство имен для @operationId
 
 @service(#{
   title: "Calculator API"
