@@ -1,6 +1,9 @@
+kind: project
 emit:
   - "@typespec/openapi3"
 options:
   "@typespec/openapi3":
-    emitter-output-dir: "{cwd}/tsp"
+    emitter-output-dir: "{cwd}/tsp/tsp-output/"
     output-file: "openapi.yaml"
+    openapi-versions:
+      - 3.1.0
