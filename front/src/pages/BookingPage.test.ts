@@ -15,7 +15,7 @@ function makeRouter() {
 
 async function renderPage() {
   const router = makeRouter();
-  await router.push("/");
+  await router.push("/booking");
   await router.isReady();
   const utils = render(BookingPage, { global: { plugins: [router] } });
   return { ...utils, router };
