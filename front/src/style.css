@@ -28,7 +28,7 @@ body {
 }
 
 .app {
-  max-width: 960px;
+  max-width: 1024px;
   margin: 0 auto;
   padding: 0 1rem 3rem;
 }
@@ -167,6 +167,11 @@ h3 {
 /* Заголовки секций админки: единый размер, как у "Добавить тип" (h3). */
 .admin-heading {
   font-size: 1.17rem;
+}
+
+/* Кнопки админки: единая ширина под самый длинный текст ("Деактивировать") */
+.admin-action {
+  min-width: 10.5rem;
 }
 
 .card {
@@ -547,7 +552,7 @@ td {
   background: #fff;
   border: 1px solid #e5e5e5;
   border-radius: 16px;
-  padding: 0.5rem 1rem;
+  padding: 0.85rem 1.25rem;
   box-shadow: 0 1px 2px rgba(30, 41, 59, 0.06);
   transition:
     border-color 0.15s ease,
@@ -561,6 +566,19 @@ td {
 .event-type-card:hover {
   border-color: var(--accent);
   box-shadow: 0 2px 8px rgba(30, 41, 59, 0.08);
+}
+
+/* Админка: список типов — одна карточка на строку, кнопки напротив */
+.event-type-list {
+  grid-template-columns: 1fr;
+}
+
+.event-type-list .event-type-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  flex-wrap: wrap;
 }
 
 .event-type-card.selected {

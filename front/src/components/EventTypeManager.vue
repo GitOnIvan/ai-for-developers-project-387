@@ -65,15 +65,29 @@ async function remove(et: EventType) {
 
     <p v-if="errorMessage" class="error" role="alert">{{ errorMessage }}</p>
 
-    <ul class="list">
-      <li v-for="et in eventTypes" :key="et.id" class="card">
-        <strong>{{ et.name }}</strong> — {{ et.durationMinutes }} мин
-        <span v-if="!et.active" class="muted"> (неактивен)</span>
-        <div class="field-row" style="margin-top: 0.5rem">
-          <button type="button" @click="toggleActive(et)">
-            {{ et.active ? "Деактивировать" : "Активировать" }}
-          </button>
-          <button type="button" @click="remove(et)">Удалить</button>
+    <ul class="list event-type-list" aria-label="Существующие типы встреч">
+      <li v-for="et in eventTypes" :key="et.id" class="event-type-card">
+        <div class="event-type-row">
+          <div class="event-type-main">
+            <div class="summary-event-title">
+              <strong>{{ et.name }}</strong>
+              <span class="tag">{{ et.durationMinutes }} мин</span>
+              <span v-if="!et.active" class="muted"> (неактивен)</span>
+            </div>
+            <p v-if="et.description" class="muted">{{ et.description }}</p>
+          </div>
+          <div class="field-row">
+            <button
+              type="button"
+              class="admin-action"
+              @click="toggleActive(et)"
+            >
+              {{ et.active ? "Деактивировать" : "Активировать" }}
+            </button>
+            <button type="button" class="admin-action" @click="remove(et)">
+              Удалить
+            </button>
+          </div>
         </div>
       </li>
     </ul>
@@ -98,7 +112,7 @@ async function remove(et: EventType) {
             min="1"
           />
         </label>
-        <button type="submit" class="primary">Добавить</button>
+        <button type="submit" class="primary admin-action">Добавить</button>
       </div>
     </form>
   </section>

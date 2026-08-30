@@ -14,6 +14,29 @@ describe("EventTypeManager", () => {
     expect(screen.getByText("Стандартная встреча")).toBeInTheDocument();
   });
 
+  it("список типов оформлен карточками как в /booking, с описанием, по одной на строку", async () => {
+    render(EventTypeManager);
+    const item = (await screen.findByText("Быстрый созвон")).closest("li")!;
+    expect(item).toHaveClass("event-type-card");
+    expect(item.closest("ul")).toHaveClass("event-type-list");
+    expect(within(item).getByText("15 мин")).toBeInTheDocument();
+    expect(
+      screen.getByText(/Короткий 15-минутный разговор/),
+    ).toBeInTheDocument();
+
+    const row = item.querySelector(".event-type-row")!;
+    expect(row).toContainElement(screen.getByText("Быстрый созвон"));
+    expect(row).toContainElement(
+      screen.getByText(/Короткий 15-минутный разговор/),
+    );
+    expect(row).toContainElement(
+      within(item).getByRole("button", { name: "Деактивировать" }),
+    );
+    expect(row).toContainElement(
+      within(item).getByRole("button", { name: "Удалить" }),
+    );
+  });
+
   it("заголовки 'Типы встреч' и 'Добавить тип' одного размера", () => {
     render(EventTypeManager);
     expect(screen.getByRole("heading", { name: "Типы встреч" })).toHaveClass(
@@ -46,6 +69,27 @@ describe("EventTypeManager", () => {
       const updated = screen.getByText("Быстрый созвон").closest("li")!;
       expect(within(updated).getByText(/неактивен/)).toBeInTheDocument();
     });
+  });
+
+  it("кнопки Деактивировать/Активировать/Удалить/Добавить единого размера", async () => {
+    render(EventTypeManager);
+    await screen.findByText("Быстрый созвон");
+    const item = screen.getByText("Быстрый созвон").closest("li")!;
+    const deactivate = within(item).getByRole("button", {
+      name: "Деактивировать",
+    });
+    expect(deactivate).toHaveClass("admin-action");
+    expect(within(item).getByRole("button", { name: "Удалить" })).toHaveClass(
+      "admin-action",
+    );
+    expect(screen.getByRole("button", { name: "Добавить" })).toHaveClass(
+      "admin-action",
+    );
+
+    await userEvent.click(deactivate);
+    expect(
+      await within(item).findByRole("button", { name: "Активировать" }),
+    ).toHaveClass("admin-action");
   });
 
   it("показывает ошибку 409 при удалении типа с бронированиями", async () => {
