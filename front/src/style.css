@@ -569,8 +569,33 @@ td {
 }
 
 /* Админка: список типов — одна карточка на строку, кнопки напротив */
+.event-type-scroll {
+  max-height: 21.5rem;
+  overflow-y: auto;
+  padding-right: 6px;
+  scrollbar-width: thin;
+  scrollbar-color: #d1d5db transparent;
+}
+
+.event-type-scroll::-webkit-scrollbar {
+  width: 8px;
+}
+
+.event-type-scroll::-webkit-scrollbar-thumb {
+  background: #d1d5db;
+  border-radius: 999px;
+}
+
+.event-type-scroll::-webkit-scrollbar-track {
+  background: transparent;
+  margin: 4px 0;
+}
+
 .event-type-create {
-  margin: 1.5rem 0 0 1.25rem;
+  margin-top: 1.5rem;
+  display: flex;
+  justify-content: flex-end;
+  padding-right: calc(1.25rem + 6px);
 }
 
 .create-fields {

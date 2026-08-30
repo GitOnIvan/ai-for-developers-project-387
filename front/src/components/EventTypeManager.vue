@@ -83,33 +83,39 @@ async function remove(et: EventType) {
 
     <p v-if="errorMessage" class="error" role="alert">{{ errorMessage }}</p>
 
-    <ul class="list event-type-list" aria-label="Существующие типы встреч">
-      <li v-for="et in eventTypes" :key="et.id" class="event-type-card">
-        <div class="event-type-row">
-          <div class="event-type-main">
-            <div class="summary-event-title">
-              <strong>{{ et.name }}</strong>
-              <span class="tag">{{ et.durationMinutes }} мин</span>
-              <span v-if="!et.active" class="muted"> (неактивен)</span>
+    <div
+      class="event-type-scroll"
+      role="region"
+      aria-label="Список типов встреч"
+    >
+      <ul class="list event-type-list" aria-label="Существующие типы встреч">
+        <li v-for="et in eventTypes" :key="et.id" class="event-type-card">
+          <div class="event-type-row">
+            <div class="event-type-main">
+              <div class="summary-event-title">
+                <strong>{{ et.name }}</strong>
+                <span class="tag">{{ et.durationMinutes }} мин</span>
+                <span v-if="!et.active" class="muted"> (неактивен)</span>
+              </div>
+              <p v-if="et.description" class="muted">{{ et.description }}</p>
             </div>
-            <p v-if="et.description" class="muted">{{ et.description }}</p>
+            <div class="field-row">
+              <button
+                type="button"
+                class="admin-action"
+                :class="{ primary: !et.active }"
+                @click="toggleActive(et)"
+              >
+                {{ et.active ? "Деактивировать" : "Активировать" }}
+              </button>
+              <button type="button" class="admin-action" @click="remove(et)">
+                Удалить
+              </button>
+            </div>
           </div>
-          <div class="field-row">
-            <button
-              type="button"
-              class="admin-action"
-              :class="{ primary: !et.active }"
-              @click="toggleActive(et)"
-            >
-              {{ et.active ? "Деактивировать" : "Активировать" }}
-            </button>
-            <button type="button" class="admin-action" @click="remove(et)">
-              Удалить
-            </button>
-          </div>
-        </div>
-      </li>
-    </ul>
+        </li>
+      </ul>
+    </div>
 
     <div class="event-type-create">
       <button type="button" class="primary admin-action" @click="openCreate">

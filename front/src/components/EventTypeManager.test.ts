@@ -37,6 +37,30 @@ describe("EventTypeManager", () => {
     );
   });
 
+  it("при большом числе типов (более 5) список прокручивается, кнопка 'Добавить' на месте", async () => {
+    for (let i = 1; i <= 4; i++) {
+      state.eventTypes.push({
+        id: `et-extra-${i}`,
+        name: `Дополнительный ${i}`,
+        slug: `extra-${i}`,
+        durationMinutes: 30,
+        description: `Описание ${i}`,
+        active: true,
+      });
+    }
+    render(EventTypeManager);
+    await screen.findByText("Быстрый созвон");
+    expect(
+      screen.getByRole("region", { name: /список типов встреч/i }),
+    ).toBeInTheDocument();
+    for (let i = 1; i <= 4; i++) {
+      expect(screen.getByText(`Дополнительный ${i}`)).toBeInTheDocument();
+    }
+    expect(
+      screen.getByRole("button", { name: "Добавить" }),
+    ).toBeInTheDocument();
+  });
+
   it("заголовок 'Типы встреч' отформатирован стилем админки", () => {
     render(EventTypeManager);
     expect(screen.getByRole("heading", { name: "Типы встреч" })).toHaveClass(
