@@ -297,6 +297,10 @@ td {
 .calendar-card {
   justify-content: center;
   align-items: center;
+  --dp-cell-size: 2.75rem;
+  --dp-font-size: 1.05rem;
+  --dp-month-year-row-height: 2.75rem;
+  --dp-month-year-row-button-size: 2.25rem;
 }
 
 .calendar-card .dp--menu {
