@@ -85,7 +85,7 @@ describe("BookingSchedulePage", () => {
     expect(screen.getByLabelText("Email")).toBeInTheDocument();
   });
 
-  it("после заполнения формы в модалке переходит на страницу подтверждения", async () => {
+  it("после заполнения формы показывает подтверждение в той же модалке", async () => {
     const { router } = await renderPage();
     await screen.findByRole("region", { name: "Календарь" });
     await selectFirstAvailableDay();
@@ -96,15 +96,18 @@ describe("BookingSchedulePage", () => {
     await userEvent.click(slotButtons[0]);
     await userEvent.click(screen.getByRole("button", { name: /Продолжить/ }));
 
-    await screen.findByRole("dialog");
+    const dialog = await screen.findByRole("dialog");
     await userEvent.type(screen.getByLabelText("Имя"), "Мария");
     await userEvent.type(screen.getByLabelText("Email"), "maria@example.com");
     await userEvent.click(screen.getByRole("button", { name: /Записаться/ }));
 
-    await waitFor(() => {
-      expect(router.currentRoute.value.name).toBe("confirmation");
-    });
-    expect(router.currentRoute.value.params.id).toBeTruthy();
+    expect(
+      await within(dialog).findByText("Встреча забронирована"),
+    ).toBeInTheDocument();
+    expect(within(dialog).getByText("Мария")).toBeInTheDocument();
+    expect(within(dialog).getByText("maria@example.com")).toBeInTheDocument();
+    // остаёмся на странице расписания, без перехода на отдельный роут
+    expect(router.currentRoute.value.name).toBe("bookingSchedule");
   });
 
   it("модалку можно закрыть, оставаясь на странице выбора слота", async () => {

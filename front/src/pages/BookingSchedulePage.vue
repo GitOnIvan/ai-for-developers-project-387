@@ -5,6 +5,7 @@ import type { Booking, EventType, Slot } from "../api/generated";
 import { api } from "../api/client";
 import AvailabilityCalendar from "../components/AvailabilityCalendar.vue";
 import BaseModal from "../components/BaseModal.vue";
+import BookingConfirmation from "../components/BookingConfirmation.vue";
 import BookingForm from "../components/BookingForm.vue";
 import EventSummary from "../components/EventSummary.vue";
 import SlotPicker from "../components/SlotPicker.vue";
@@ -23,6 +24,7 @@ const slots = ref<Slot[]>([]);
 const slotsLoading = ref(false);
 const selectedSlot = ref<Slot | null>(null);
 const showConfirm = ref(false);
+const confirmedBooking = ref<Booking | null>(null);
 
 onMounted(async () => {
   const res = await api.eventTypesList();
@@ -51,11 +53,17 @@ function goBack() {
 
 function goConfirm() {
   if (!selectedSlot.value) return;
+  confirmedBooking.value = null;
   showConfirm.value = true;
 }
 
 function onBooked(booking: Booking) {
-  router.push({ name: "confirmation", params: { id: booking.id } });
+  confirmedBooking.value = booking;
+}
+
+function closeConfirm() {
+  showConfirm.value = false;
+  confirmedBooking.value = null;
 }
 </script>
 
@@ -94,8 +102,10 @@ function onBooked(booking: Booking) {
 
     <BaseModal
       v-if="showConfirm && selectedSlot"
-      aria-label="Подтвердите запись"
-      @close="showConfirm = false"
+      :aria-label="
+        confirmedBooking ? 'Бронирование подтверждено' : 'Подтвердите запись'
+      "
+      @close="closeConfirm"
     >
       <EventSummary
         class="modal-summary"
@@ -104,7 +114,12 @@ function onBooked(booking: Booking) {
         :selected-slot-start="selectedSlot?.start ?? null"
       />
 
+      <BookingConfirmation
+        v-if="confirmedBooking"
+        :booking="confirmedBooking"
+      />
       <BookingForm
+        v-else
         :event-type-id="eventTypeId"
         :slot="selectedSlot"
         @booked="onBooked"
