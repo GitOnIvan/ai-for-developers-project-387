@@ -79,6 +79,7 @@ describe("EventTypeManager", () => {
       name: "Деактивировать",
     });
     expect(deactivate).toHaveClass("admin-action");
+    expect(deactivate).not.toHaveClass("primary");
     expect(within(item).getByRole("button", { name: "Удалить" })).toHaveClass(
       "admin-action",
     );
@@ -87,9 +88,11 @@ describe("EventTypeManager", () => {
     );
 
     await userEvent.click(deactivate);
-    expect(
-      await within(item).findByRole("button", { name: "Активировать" }),
-    ).toHaveClass("admin-action");
+    const activate = await within(item).findByRole("button", {
+      name: "Активировать",
+    });
+    expect(activate).toHaveClass("admin-action");
+    expect(activate).toHaveClass("primary");
   });
 
   it("показывает ошибку 409 при удалении типа с бронированиями", async () => {

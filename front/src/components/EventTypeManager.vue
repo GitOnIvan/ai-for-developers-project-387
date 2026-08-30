@@ -80,6 +80,7 @@ async function remove(et: EventType) {
             <button
               type="button"
               class="admin-action"
+              :class="{ primary: !et.active }"
               @click="toggleActive(et)"
             >
               {{ et.active ? "Деактивировать" : "Активировать" }}
