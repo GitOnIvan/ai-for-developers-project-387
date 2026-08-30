@@ -1,0 +1,12 @@
+{
+  "name": "ai-for-developers-project-386",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "workspaces": [
+    "tsp"
+  ],
+  "scripts": {
+    "tsp:compile": "npm run compile --workspace=contracts"
+  }
+}
