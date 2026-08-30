@@ -80,7 +80,7 @@ function goConfirm() {
         @select="onSelectSlot"
       />
       <div class="booking-actions">
-        <button type="button" class="text-button" @click="goBack">Назад</button>
+        <button type="button" class="secondary" @click="goBack">Назад</button>
         <button
           type="button"
           class="primary"

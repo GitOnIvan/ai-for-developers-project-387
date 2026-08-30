@@ -187,6 +187,12 @@ button.primary {
   color: #fff;
 }
 
+button.secondary {
+  background: #fff;
+  border-color: #d1d5db;
+  color: #1a1a1a;
+}
+
 button:disabled {
   opacity: 0.5;
   cursor: not-allowed;
@@ -391,20 +397,19 @@ td {
 }
 
 .booking-actions {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   gap: 0.5rem;
-  justify-content: space-between;
   flex-shrink: 0;
   padding-top: 0.75rem;
   margin-top: auto;
 }
 
-button.text-button {
-  background: transparent;
-  border: none;
-  color: #4b5563;
-  text-decoration: underline;
-  padding: 0.5rem 0;
+.booking-actions button {
+  width: 100%;
+  min-width: 0;
+  padding-left: 0.4rem;
+  padding-right: 0.4rem;
 }
 
 @media (max-width: 720px) {
