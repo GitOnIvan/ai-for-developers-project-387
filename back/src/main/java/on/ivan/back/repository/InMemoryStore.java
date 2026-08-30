@@ -43,7 +43,7 @@ public class InMemoryStore {
         new EventType("et-30", "Стандартная встреча", "standard-30", 30, true)
             .description("Получасовая встреча"));
     putEventType(
-        new EventType("et-120", "Глубокая сессия", "deep-120", 120, true)
+        new EventType("et-120", "Дип-дайв", "deep-120", 120, true)
             .description("Двухчасовая рабочая сессия"));
   }
 
