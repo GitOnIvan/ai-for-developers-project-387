@@ -64,11 +64,11 @@ defineExpose({ allowedDates, loading, loadMonth, onSelect, onUpdateMonthYear });
       v-model="model"
       inline
       auto-apply
-      :enable-time-picker="false"
+      :time-config="{ enableTimePicker: false }"
+      :config="{ monthChangeOnScroll: false }"
       :min-date="today"
       :max-date="maxDate"
       :allowed-dates="allowedDates"
-      :month-change-on-scroll="false"
       @update-month-year="onUpdateMonthYear"
       @update:model-value="onSelect"
     />

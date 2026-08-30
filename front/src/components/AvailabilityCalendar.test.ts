@@ -17,6 +17,14 @@ describe("AvailabilityCalendar", () => {
     ).not.toBeInTheDocument();
   });
 
+  it("не показывает кнопку выбора времени", async () => {
+    render(AvailabilityCalendar, { props: { eventTypeId: "et-30" } });
+    await screen.findByRole("region", { name: "Календарь" });
+    expect(
+      screen.queryByRole("button", { name: /time picker/i }),
+    ).not.toBeInTheDocument();
+  });
+
   it("загружает доступные дни текущего месяца и заполняет allowedDates", async () => {
     const { getComponent } = renderWithRef({ eventTypeId: "et-30" });
     await waitFor(() => {
