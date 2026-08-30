@@ -33,4 +33,31 @@ describe("BookingsTable", () => {
     expect(screen.getByText("Стандартная встреча")).toBeInTheDocument();
     expect(screen.getByText("anna@example.com")).toBeInTheDocument();
   });
+
+  it("при большом числе встреч показывает все в прокручиваемом списке", async () => {
+    for (let i = 1; i <= 7; i++) {
+      const day = DateTimeUtil.toLocalDateString(
+        DateTimeUtil.addDays(new Date(), i),
+      );
+      state.bookings.push({
+        id: `bk-${i}`,
+        eventTypeId: "et-30",
+        slotStart: `${day}T10:00:00.000Z`,
+        slotEnd: `${day}T10:30:00.000Z`,
+        name: `Гость ${i}`,
+        email: `guest${i}@example.com`,
+        createdAt: "2026-08-01T00:00:00.000Z",
+      });
+    }
+    render(BookingsTable);
+
+    const region = await screen.findByRole("region", {
+      name: /предстоящих встреч/i,
+    });
+    expect(region).toBeInTheDocument();
+
+    for (let i = 1; i <= 7; i++) {
+      expect(screen.getByText(`Гость ${i}`)).toBeInTheDocument();
+    }
+  });
 });

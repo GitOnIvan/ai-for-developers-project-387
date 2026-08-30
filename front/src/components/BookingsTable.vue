@@ -29,23 +29,30 @@ onMounted(async () => {
     <p v-else-if="bookings.length === 0" class="muted">
       Пока нет запланированных встреч.
     </p>
-    <table v-else>
-      <thead>
-        <tr>
-          <th>Когда</th>
-          <th>Тип</th>
-          <th>Гость</th>
-          <th>Email</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="b in bookings" :key="b.id">
-          <td>{{ DateTimeUtil.formatDateTime(b.slotStart) }}</td>
-          <td>{{ b.eventType.name }}</td>
-          <td>{{ b.name }}</td>
-          <td>{{ b.email }}</td>
-        </tr>
-      </tbody>
-    </table>
+    <div
+      v-else
+      class="bookings-scroll"
+      role="region"
+      aria-label="Список предстоящих встреч"
+    >
+      <table>
+        <thead>
+          <tr>
+            <th>Когда</th>
+            <th>Тип</th>
+            <th>Гость</th>
+            <th>Email</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="b in bookings" :key="b.id">
+            <td>{{ DateTimeUtil.formatDateTime(b.slotStart) }}</td>
+            <td>{{ b.eventType.name }}</td>
+            <td>{{ b.name }}</td>
+            <td>{{ b.email }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </section>
 </template>

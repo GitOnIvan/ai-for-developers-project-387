@@ -293,6 +293,36 @@ td {
   font-size: 0.9rem;
 }
 
+/* Предстоящие встречи: максимум ~5 строк, остальное прокручивается */
+.bookings-scroll {
+  overflow-y: auto;
+  max-height: calc(2.2rem + 5 * 2.2rem);
+  border-radius: 6px;
+  scrollbar-width: thin;
+  scrollbar-color: #d1d5db transparent;
+}
+
+.bookings-scroll::-webkit-scrollbar {
+  width: 8px;
+}
+
+.bookings-scroll::-webkit-scrollbar-thumb {
+  background: #d1d5db;
+  border-radius: 999px;
+}
+
+.bookings-scroll::-webkit-scrollbar-track {
+  background: transparent;
+  margin: 4px 0;
+}
+
+.bookings-scroll thead th {
+  position: sticky;
+  top: 0;
+  background: #fff;
+  z-index: 1;
+}
+
 .field-row {
   display: flex;
   gap: 0.5rem;
