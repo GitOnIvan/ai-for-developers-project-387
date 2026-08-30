@@ -33,13 +33,12 @@ const timeLabel = computed(() => {
     </div>
 
     <div class="summary-block">
-      <p class="muted">Событие</p>
-      <p>
+      <div class="summary-event-title">
         <strong>{{ eventType?.name ?? "..." }}</strong>
-      </p>
-      <p v-if="eventType?.durationMinutes" class="tag">
-        {{ eventType.durationMinutes }} мин
-      </p>
+        <span v-if="eventType?.durationMinutes" class="tag">
+          {{ eventType.durationMinutes }} мин
+        </span>
+      </div>
       <p v-if="eventType?.description" class="muted">
         {{ eventType.description }}
       </p>

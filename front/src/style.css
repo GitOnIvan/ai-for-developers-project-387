@@ -360,6 +360,13 @@ td {
   margin: 0;
 }
 
+.summary-event-title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
 .tag {
   display: inline-block;
   background: rgba(242, 122, 48, 0.12);
