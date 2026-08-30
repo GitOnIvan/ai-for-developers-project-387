@@ -224,6 +224,27 @@ button:disabled {
   flex: 1;
   min-height: 0;
   overflow-y: auto;
+  padding: 6px 10px 6px 6px;
+  scrollbar-width: thin;
+  scrollbar-color: #d1d5db transparent;
+}
+
+.slots::-webkit-scrollbar {
+  width: 8px;
+}
+
+.slots::-webkit-scrollbar-thumb {
+  background: #d1d5db;
+  border-radius: 999px;
+}
+
+.slots::-webkit-scrollbar-track {
+  background: transparent;
+  margin: 4px 0;
+}
+
+.slots .selectable {
+  padding-left: 0.9rem;
 }
 
 label {
@@ -327,6 +348,7 @@ td {
 
 .slot-picker h2 {
   margin: 0 0 0.75rem;
+  padding-left: 7px;
   flex-shrink: 0;
   font-size: 1rem;
   font-weight: 700;
