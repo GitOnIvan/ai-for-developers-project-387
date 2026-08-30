@@ -31,12 +31,15 @@ export const DateTimeUtil = {
   formatDate(localDate: string): string {
     const [y, m, d] = localDate.split("-").map(Number);
     const date = new Date(y, m - 1, d);
-    return date.toLocaleDateString(undefined, {
+    const formatted = date.toLocaleDateString("ru-RU", {
       weekday: "long",
       year: "numeric",
       month: "long",
       day: "numeric",
     });
+    const capitalized =
+      formatted.charAt(0).toLocaleUpperCase("ru-RU") + formatted.slice(1);
+    return capitalized.replace(", ", "\n");
   },
 
   /** Прибавить дни к дате (возвращает новый Date). */

@@ -44,12 +44,12 @@ const timeLabel = computed(() => {
       </p>
     </div>
 
-    <div class="summary-block">
+    <div class="summary-block summary-chip">
       <p class="muted">Выбранная дата</p>
-      <p>{{ dateLabel }}</p>
+      <p class="summary-date">{{ dateLabel }}</p>
     </div>
 
-    <div class="summary-block">
+    <div class="summary-block summary-chip">
       <p class="muted">Выбранное время</p>
       <p>{{ timeLabel }}</p>
     </div>

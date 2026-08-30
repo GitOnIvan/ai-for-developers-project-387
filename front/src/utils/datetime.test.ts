@@ -55,5 +55,11 @@ describe("DateTimeUtil", () => {
       const result = DateTimeUtil.formatDate("2026-09-01");
       expect(result).toContain("2026");
     });
+
+    it("начинает день недели с заглавной буквы и переносит дату", () => {
+      expect(DateTimeUtil.formatDate("2026-08-31")).toBe(
+        "Понедельник\n31 августа 2026 г.",
+      );
+    });
   });
 });
