@@ -22,9 +22,14 @@ const timeLabel = computed(() => {
 
 <template>
   <section class="booking-card" aria-label="Сводка встречи">
-    <div class="summary-block">
-      <p class="muted">Организатор</p>
-      <p><strong>admin</strong></p>
+    <div class="summary-block summary-block--divided">
+      <div class="summary-organizer">
+        <span class="summary-avatar" aria-hidden="true">A</span>
+        <div class="summary-organizer-text">
+          <p class="muted">Организатор</p>
+          <p><strong>admin</strong></p>
+        </div>
+      </div>
     </div>
 
     <div class="summary-block">

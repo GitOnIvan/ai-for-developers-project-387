@@ -332,6 +332,34 @@ td {
   margin: 0.25rem 0;
 }
 
+.summary-block--divided {
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.summary-organizer {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.summary-avatar {
+  flex-shrink: 0;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  background: var(--accent);
+  color: #fff;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.summary-organizer-text p {
+  margin: 0;
+}
+
 .tag {
   display: inline-block;
   background: rgba(242, 122, 48, 0.12);
