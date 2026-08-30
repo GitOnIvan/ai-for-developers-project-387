@@ -14,6 +14,16 @@ describe("EventTypeManager", () => {
     expect(screen.getByText("Стандартная встреча")).toBeInTheDocument();
   });
 
+  it("заголовки 'Типы встреч' и 'Добавить тип' одного размера", () => {
+    render(EventTypeManager);
+    expect(screen.getByRole("heading", { name: "Типы встреч" })).toHaveClass(
+      "admin-heading",
+    );
+    expect(screen.getByRole("heading", { name: "Добавить тип" })).toHaveClass(
+      "admin-heading",
+    );
+  });
+
   it("создаёт новый тип встречи", async () => {
     render(EventTypeManager);
     await screen.findByText("Быстрый созвон");

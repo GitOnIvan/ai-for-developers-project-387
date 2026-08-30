@@ -61,7 +61,7 @@ async function remove(et: EventType) {
 
 <template>
   <section aria-labelledby="etm-heading">
-    <h2 id="etm-heading">Типы встреч</h2>
+    <h2 id="etm-heading" class="admin-heading">Типы встреч</h2>
 
     <p v-if="errorMessage" class="error" role="alert">{{ errorMessage }}</p>
 
@@ -78,7 +78,7 @@ async function remove(et: EventType) {
       </li>
     </ul>
 
-    <h3>Добавить тип</h3>
+    <h3 class="admin-heading">Добавить тип</h3>
     <form @submit.prevent="create">
       <div class="field-row">
         <label>

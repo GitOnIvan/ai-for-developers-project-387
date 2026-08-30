@@ -34,6 +34,14 @@ describe("BookingsTable", () => {
     expect(screen.getByText("anna@example.com")).toBeInTheDocument();
   });
 
+  it("заголовок секции выровнен по размеру 'Добавить тип'", async () => {
+    render(BookingsTable);
+    await screen.findByRole("heading", { name: "Предстоящие встречи" });
+    expect(
+      screen.getByRole("heading", { name: "Предстоящие встречи" }),
+    ).toHaveClass("admin-heading");
+  });
+
   it("при большом числе встреч показывает все в прокручиваемом списке", async () => {
     for (let i = 1; i <= 7; i++) {
       const day = DateTimeUtil.toLocalDateString(

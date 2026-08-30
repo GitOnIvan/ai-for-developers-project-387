@@ -24,7 +24,7 @@ onMounted(async () => {
 
 <template>
   <section aria-labelledby="bookings-heading">
-    <h2 id="bookings-heading">Предстоящие встречи</h2>
+    <h2 id="bookings-heading" class="admin-heading">Предстоящие встречи</h2>
     <p v-if="loading" class="muted" role="status">Загрузка…</p>
     <p v-else-if="bookings.length === 0" class="muted">
       Пока нет запланированных встреч.

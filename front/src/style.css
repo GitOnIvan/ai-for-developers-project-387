@@ -164,6 +164,11 @@ h3 {
   line-height: 1.2;
 }
 
+/* Заголовки секций админки: единый размер, как у "Добавить тип" (h3). */
+.admin-heading {
+  font-size: 1.17rem;
+}
+
 .card {
   background: #fff;
   border: 1px solid #e5e5e5;
