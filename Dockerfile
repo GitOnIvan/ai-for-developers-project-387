@@ -1,5 +1,18 @@
 # =============================================================================
-# 1. Стадия фронтенда: сборка Vue SPA
+# 1. Стадия контракта: генерируем OpenAPI (tsp/tsp-output/api.yaml) из TypeSpec
+# =============================================================================
+FROM node:24-alpine AS contract
+
+WORKDIR /build/tsp
+
+COPY tsp/package.json ./
+RUN npm install
+
+COPY tsp/main.tsp tsp/tspconfig.yaml ./
+RUN npm run compile
+
+# =============================================================================
+# 2. Стадия фронтенда: сборка Vue SPA
 # =============================================================================
 FROM node:24-alpine AS frontend
 
@@ -12,14 +25,15 @@ COPY front/ ./
 RUN npm run build
 
 # =============================================================================
-# 2. Стадия бэкенда: сборка Spring Boot jar
+# 3. Стадия бэкенда: сборка Spring Boot jar
 # =============================================================================
 FROM maven:3.9-eclipse-temurin-21 AS backend
 
 WORKDIR /build
 
-# OpenAPI-контракт нужен на этапе генерации источников
-COPY tsp/tsp-output/api.yaml /build/tsp/tsp-output/api.yaml
+# OpenAPI-контракт, сгенерированный на стадии contract
+COPY --from=contract /build/tsp/tsp-output/api.yaml /build/tsp/tsp-output/api.yaml
+
 COPY back/pom.xml /build/back/pom.xml
 COPY back/mvnw /build/back/mvnw
 COPY back/.mvn /build/back/.mvn
@@ -28,7 +42,7 @@ COPY back/src /build/back/src
 RUN cd /build/back && ./mvnw -q -DskipTests package
 
 # =============================================================================
-# 3. Финальная стадия: рантайм с JRE
+# 4. Финальная стадия: рантайм с JRE
 # =============================================================================
 FROM eclipse-temurin:21-jre
 
