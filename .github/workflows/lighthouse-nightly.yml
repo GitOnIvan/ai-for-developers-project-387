@@ -1,0 +1,43 @@
+name: Nightly Lighthouse Audit
+
+on:
+  # 1. Запуск по расписанию: каждую ночь в 02:00 UTC (05:00 по Москве)
+  schedule:
+    - cron: '0 2 * * *'
+
+  # 2. Возможность ручного запуска из вкладки Actions
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+
+jobs:
+  lighthouse-audit:
+    runs-on: ubuntu-latest
+    steps:
+      # Шаг А: Скачиваем код репозитория
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # Шаг Б: Запускаем Lighthouse CI для генерации отчета
+      - name: Run Lighthouse Audit
+        uses: treosh/lighthouse-ci-action@v12
+        with:
+          urls: |
+            https://example.com  # Замените на URL вашего тестируемого сайта
+          uploadArtifacts: true # Убедитесь, что отчет сохраняется как артефакт GitHub
+
+      # Шаг В: Вызываем ИИ-агента OpenCode для анализа результатов ночного аудита
+      - name: OpenCode Analysis
+        uses: google/apps/opencode-agent@v1  # Или используйте экшен, указанный в вашей документации
+        env:
+          OPENCODE_API_KEY: ${{ secrets.OPENCODE_API_KEY }}
+        with:
+          # Для расписаний prompt обязателен, так как нет живого чата
+          prompt: |
+            Изучи результаты только что сгенерированного отчета Lighthouse. 
+            Если обнаружены просадки по Performance, SEO или Accessibility ниже 90 баллов, 
+            автоматически создай новое Issue с заголовком "Правки по итогам ночного Lighthouse аудита". 
+            В описании Issue перечисли списком конкретные технические проблемы, требующие исправления командой утром.
