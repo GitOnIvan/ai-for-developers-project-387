@@ -58,8 +58,7 @@ defineExpose({ allowedDates, loading, loadMonth, onSelect, onUpdateMonthYear });
 </script>
 
 <template>
-  <section aria-labelledby="cal-heading">
-    <h2 id="cal-heading">Выберите день</h2>
+  <section class="booking-card calendar-card" aria-label="Календарь">
     <p v-if="loading" class="muted" role="status">Загрузка календаря…</p>
     <VueDatePicker
       v-model="model"

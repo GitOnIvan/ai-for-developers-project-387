@@ -60,45 +60,36 @@ function goConfirm() {
 </script>
 
 <template>
-  <div>
-    <h1>Выберите дату и время</h1>
-    <div class="booking-layout">
-      <div class="booking-column">
-        <EventSummary
-          :event-type="eventType"
-          :selected-date="selectedDate"
-          :selected-slot-start="selectedSlot?.start ?? null"
-        />
-      </div>
+  <div class="booking-layout">
+    <EventSummary
+      :event-type="eventType"
+      :selected-date="selectedDate"
+      :selected-slot-start="selectedSlot?.start ?? null"
+    />
 
-      <div class="booking-column">
-        <AvailabilityCalendar
-          :event-type-id="eventTypeId"
-          @select-date="onSelectDate"
-        />
-      </div>
+    <AvailabilityCalendar
+      :event-type-id="eventTypeId"
+      @select-date="onSelectDate"
+    />
 
-      <div class="booking-column">
-        <SlotPicker
-          :slots="slots"
-          :loading="slotsLoading"
-          :selected-start="selectedSlot?.start"
-          @select="onSelectSlot"
-        />
-        <div class="booking-actions">
-          <button type="button" class="text-button" @click="goBack">
-            Назад
-          </button>
-          <button
-            type="button"
-            class="primary"
-            :disabled="!selectedSlot"
-            @click="goConfirm"
-          >
-            Продолжить
-          </button>
-        </div>
+    <section class="booking-card slot-card" aria-labelledby="slot-heading">
+      <SlotPicker
+        :slots="slots"
+        :loading="slotsLoading"
+        :selected-start="selectedSlot?.start"
+        @select="onSelectSlot"
+      />
+      <div class="booking-actions">
+        <button type="button" class="text-button" @click="goBack">Назад</button>
+        <button
+          type="button"
+          class="primary"
+          :disabled="!selectedSlot"
+          @click="goConfirm"
+        >
+          Продолжить
+        </button>
       </div>
-    </div>
+    </section>
   </div>
 </template>

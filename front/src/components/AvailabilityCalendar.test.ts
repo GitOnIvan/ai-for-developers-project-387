@@ -7,11 +7,14 @@ beforeEach(() => resetData());
 afterEach(() => resetData());
 
 describe("AvailabilityCalendar", () => {
-  it("показывает заголовок выбора дня", async () => {
+  it("показывает календарь без избыточного заголовка", async () => {
     render(AvailabilityCalendar, { props: { eventTypeId: "et-30" } });
     expect(
-      await screen.findByRole("heading", { name: "Выберите день" }),
+      await screen.findByRole("region", { name: "Календарь" }),
     ).toBeInTheDocument();
+    expect(
+      screen.queryByRole("heading", { name: "Выберите день" }),
+    ).not.toBeInTheDocument();
   });
 
   it("загружает доступные дни текущего месяца и заполняет allowedDates", async () => {

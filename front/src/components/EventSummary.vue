@@ -21,9 +21,7 @@ const timeLabel = computed(() => {
 </script>
 
 <template>
-  <section class="card" aria-labelledby="summary-heading">
-    <h2 id="summary-heading">Сводка встречи</h2>
-
+  <section class="booking-card" aria-label="Сводка встречи">
     <div class="summary-block">
       <p class="muted">Организатор</p>
       <p><strong>admin</strong></p>

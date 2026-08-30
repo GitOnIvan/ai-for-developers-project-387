@@ -14,8 +14,8 @@ const emit = defineEmits<{
 </script>
 
 <template>
-  <section aria-labelledby="slot-heading">
-    <h2 id="slot-heading">Свободное время</h2>
+  <div class="slot-picker">
+    <h2 id="slot-heading">Доступные слоты</h2>
     <p v-if="loading" class="muted">Загрузка слотов…</p>
     <p v-else-if="slots.length === 0" class="muted">
       На этот день нет свободных слотов.
@@ -33,5 +33,5 @@ const emit = defineEmits<{
         {{ DateTimeUtil.formatTime(slot.start) }}
       </button>
     </div>
-  </section>
+  </div>
 </template>

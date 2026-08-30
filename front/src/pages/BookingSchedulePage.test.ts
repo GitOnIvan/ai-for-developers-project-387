@@ -26,7 +26,9 @@ async function renderPage(eventTypeId = "et-30") {
 describe("BookingSchedulePage", () => {
   it("показывает сводку с организатором и названием типа", async () => {
     await renderPage();
-    expect(await screen.findByText("Сводка встречи")).toBeInTheDocument();
+    expect(
+      await screen.findByRole("region", { name: "Сводка встречи" }),
+    ).toBeInTheDocument();
     expect(screen.getByText("admin")).toBeInTheDocument();
     expect(await screen.findByText("Стандартная встреча")).toBeInTheDocument();
   });
@@ -34,7 +36,7 @@ describe("BookingSchedulePage", () => {
   it("показывает календарь и начальный статус без выбранных даты/времени", async () => {
     await renderPage();
     expect(
-      await screen.findByRole("heading", { name: "Выберите день" }),
+      await screen.findByRole("region", { name: "Календарь" }),
     ).toBeInTheDocument();
     expect(screen.getByText("Дата не выбрана")).toBeInTheDocument();
     expect(screen.getByText("Время не выбрано")).toBeInTheDocument();
@@ -42,11 +44,11 @@ describe("BookingSchedulePage", () => {
 
   it("после выбора даты показывает слоты и блокирует кнопку продолжить", async () => {
     await renderPage();
-    await screen.findByRole("heading", { name: "Выберите день" });
+    await screen.findByRole("region", { name: "Календарь" });
     await selectFirstAvailableDay();
 
     expect(
-      await screen.findByRole("heading", { name: "Свободное время" }),
+      await screen.findByRole("heading", { name: "Доступные слоты" }),
     ).toBeInTheDocument();
     const slotButtons = await screen.findAllByRole("button", {
       name: /^\d{2}:\d{2}$/,
@@ -59,7 +61,7 @@ describe("BookingSchedulePage", () => {
 
   it("после выбора слота активирует продолжить и переходит на форму", async () => {
     const { router } = await renderPage();
-    await screen.findByRole("heading", { name: "Выберите день" });
+    await screen.findByRole("region", { name: "Календарь" });
     await selectFirstAvailableDay();
 
     const slotButtons = await screen.findAllByRole("button", {
@@ -80,7 +82,7 @@ describe("BookingSchedulePage", () => {
 
   it("кнопка назад возвращает на выбор типа", async () => {
     const { router } = await renderPage();
-    await screen.findByRole("heading", { name: "Выберите день" });
+    await screen.findByRole("region", { name: "Календарь" });
     await userEvent.click(screen.getByRole("button", { name: /Назад/ }));
     await waitFor(() => {
       expect(router.currentRoute.value.name).toBe("booking");
@@ -93,10 +95,9 @@ describe("BookingSchedulePage", () => {
  * выбор дня через публичный API компонента календаря.
  */
 async function selectFirstAvailableDay() {
-  const calendarSection = await screen.findByRole("heading", {
-    name: "Выберите день",
-  });
-  const host = calendarSection.closest("section") as HTMLElement & {
+  const host = (await screen.findByRole("region", {
+    name: "Календарь",
+  })) as HTMLElement & {
     __vueParentComponent?: { exposed?: Record<string, unknown> };
   };
   await waitFor(() => {
