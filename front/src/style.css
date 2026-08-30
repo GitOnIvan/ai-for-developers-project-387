@@ -322,6 +322,8 @@ td {
 .slot-picker h2 {
   margin: 0 0 0.75rem;
   flex-shrink: 0;
+  font-size: 1rem;
+  font-weight: 700;
 }
 
 .summary-block {
