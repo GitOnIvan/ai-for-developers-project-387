@@ -3,14 +3,20 @@ import { onMounted, ref } from "vue";
 import type { AxiosError } from "axios";
 import type { ApiError, EventType } from "../api/generated";
 import { api } from "../api/client";
+import BaseModal from "./BaseModal.vue";
 
 const eventTypes = ref<EventType[]>([]);
 const errorMessage = ref("");
+
+// Модальное окно создания
+const showCreate = ref(false);
+const createError = ref("");
 
 // Форма создания
 const name = ref("");
 const slug = ref("");
 const durationMinutes = ref<number>(30);
+const description = ref("");
 
 async function load() {
   const res = await api.adminEventTypesList();
@@ -19,20 +25,32 @@ async function load() {
 
 onMounted(load);
 
+function openCreate() {
+  createError.value = "";
+  showCreate.value = true;
+}
+
+function closeCreate() {
+  showCreate.value = false;
+}
+
 async function create() {
-  errorMessage.value = "";
+  createError.value = "";
   if (!name.value.trim() || !slug.value.trim() || !durationMinutes.value) {
-    errorMessage.value = "Заполните все поля";
+    createError.value = "Заполните все поля";
     return;
   }
   await api.adminEventTypesCreate({
     name: name.value,
     slug: slug.value,
     durationMinutes: Number(durationMinutes.value),
+    description: description.value.trim() || undefined,
   });
   name.value = "";
   slug.value = "";
   durationMinutes.value = 30;
+  description.value = "";
+  showCreate.value = false;
   await load();
 }
 
@@ -93,28 +111,46 @@ async function remove(et: EventType) {
       </li>
     </ul>
 
-    <h3 class="admin-heading">Добавить тип</h3>
-    <form @submit.prevent="create">
-      <div class="field-row">
-        <label>
-          <span>Название</span>
-          <input v-model="name" aria-label="Название" type="text" />
-        </label>
-        <label>
-          <span>Slug</span>
-          <input v-model="slug" aria-label="Slug" type="text" />
-        </label>
-        <label>
-          <span>Длительность (мин)</span>
-          <input
-            v-model="durationMinutes"
-            aria-label="Длительность"
-            type="number"
-            min="1"
-          />
-        </label>
-        <button type="submit" class="primary admin-action">Добавить</button>
-      </div>
-    </form>
+    <div class="event-type-create">
+      <button type="button" class="primary admin-action" @click="openCreate">
+        Добавить
+      </button>
+    </div>
+
+    <BaseModal v-if="showCreate" title="Добавить тип" @close="closeCreate">
+      <form @submit.prevent="create">
+        <div class="create-fields">
+          <label>
+            <span>Название</span>
+            <input v-model="name" aria-label="Название" type="text" />
+          </label>
+          <label>
+            <span>Slug</span>
+            <input v-model="slug" aria-label="Slug" type="text" />
+          </label>
+          <label>
+            <span>Длительность (мин)</span>
+            <input
+              v-model="durationMinutes"
+              aria-label="Длительность"
+              type="number"
+              min="1"
+            />
+          </label>
+          <label>
+            <span>Описание</span>
+            <textarea
+              v-model="description"
+              aria-label="Описание"
+              rows="3"
+            ></textarea>
+          </label>
+        </div>
+        <p v-if="createError" class="error" role="alert">{{ createError }}</p>
+        <div class="field-row" style="margin-top: 1rem">
+          <button type="submit" class="primary admin-action">Добавить</button>
+        </div>
+      </form>
+    </BaseModal>
   </section>
 </template>

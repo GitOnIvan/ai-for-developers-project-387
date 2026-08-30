@@ -37,26 +37,35 @@ describe("EventTypeManager", () => {
     );
   });
 
-  it("заголовки 'Типы встреч' и 'Добавить тип' одного размера", () => {
+  it("заголовок 'Типы встреч' отформатирован стилем админки", () => {
     render(EventTypeManager);
     expect(screen.getByRole("heading", { name: "Типы встреч" })).toHaveClass(
       "admin-heading",
     );
-    expect(screen.getByRole("heading", { name: "Добавить тип" })).toHaveClass(
-      "admin-heading",
-    );
   });
 
-  it("создаёт новый тип встречи", async () => {
+  it("создаёт новый тип встречи через модальное окно со всеми полями", async () => {
     render(EventTypeManager);
     await screen.findByText("Быстрый созвон");
-    await userEvent.type(screen.getByLabelText("Название"), "Интервью");
-    await userEvent.type(screen.getByLabelText("Slug"), "interview-45");
-    const duration = screen.getByLabelText("Длительность");
+
+    await userEvent.click(screen.getByRole("button", { name: "Добавить" }));
+    const dialog = await screen.findByRole("dialog", { name: "Добавить тип" });
+
+    await userEvent.type(within(dialog).getByLabelText("Название"), "Интервью");
+    await userEvent.type(within(dialog).getByLabelText("Slug"), "interview-45");
+    const duration = within(dialog).getByLabelText("Длительность");
     await userEvent.clear(duration);
     await userEvent.type(duration, "45");
-    await userEvent.click(screen.getByRole("button", { name: "Добавить" }));
+    await userEvent.type(
+      within(dialog).getByLabelText("Описание"),
+      "Интервью по найму",
+    );
+    await userEvent.click(
+      within(dialog).getByRole("button", { name: "Добавить" }),
+    );
+
     expect(await screen.findByText("Интервью")).toBeInTheDocument();
+    expect(screen.getByText(/Интервью по найму/)).toBeInTheDocument();
   });
 
   it("деактивирует тип встречи", async () => {
@@ -85,6 +94,9 @@ describe("EventTypeManager", () => {
     );
     expect(screen.getByRole("button", { name: "Добавить" })).toHaveClass(
       "admin-action",
+    );
+    expect(screen.getByRole("button", { name: "Добавить" })).toHaveClass(
+      "primary",
     );
 
     await userEvent.click(deactivate);

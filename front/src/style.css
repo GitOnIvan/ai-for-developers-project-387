@@ -569,6 +569,15 @@ td {
 }
 
 /* Админка: список типов — одна карточка на строку, кнопки напротив */
+.event-type-create {
+  margin: 1.5rem 0 0 1.25rem;
+}
+
+.create-fields {
+  display: grid;
+  gap: 0.75rem;
+}
+
 .event-type-list {
   grid-template-columns: 1fr;
 }
