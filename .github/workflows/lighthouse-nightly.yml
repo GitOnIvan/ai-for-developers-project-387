@@ -18,23 +18,28 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # 2. Собираем Docker-образ из вашего Dockerfile
+      # 2. Собираем Docker-образ вашего приложения
       - name: Build Docker Image
         run: docker build -t my-app:latest .
 
-      # 3. Запускаем контейнер в фоне на порту 8080 и тестируем его через Lighthouse
+      # 3. Запускаем контейнер в фоновом режиме (-d) и ждем старта Spring Boot
+      - name: Start App Container
+        run: |
+          docker run -d -p 8080:8080 --name running-app -e PORT=8080 my-app:latest
+          echo "Ожидаем 20 секунд, пока Spring Boot поднимется..."
+          sleep 20
+          docker ps # Проверяем, что контейнер живой и работает
+
+      # 4. Запускаем Lighthouse аудит работающего локального сервера
       - name: Run Lighthouse Audit
         uses: treosh/lighthouse-ci-action@v12
         with:
-          # Команда запускает собранный Docker-контейнер, пробрасывая порт 8080 наружу
-          startServerCommand: docker run --rm -p 8080:8080 -e PORT=8080 my-app:latest
-
-          # Даем приложению внутри контейнера пару секунд, чтобы успел запуститься Spring Boot
-          startServerReadyTimeout: 30000
-
-          # Адрес, который будет тестировать Lighthouse (Spring Boot на порту 8080)
           urls: |
             http://localhost:8080/
+          uploadArtifacts: true        # Сохраняем отчет в архивы сборки
+          temporaryPublicStorage: true # Временная ссылка для анализа агентом OpenCode
 
-          uploadArtifacts: true        # Сохраняет отчет в архив, чтобы посмотреть утром
-          temporaryPublicStorage: true # Дает временную ссылку для анализа агентом OpenCode
+      # 5. Останавливаем контейнер после завершения теста
+      - name: Stop App Container
+        if: always()
+        run: docker stop running-app || true
