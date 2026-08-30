@@ -12,7 +12,7 @@ const features = [
   <div class="landing">
     <div class="landing-offer">
       <span class="eyebrow">БЫСТРАЯ ЗАПИСЬ НА ЗВОНОК</span>
-      <h1 class="landing-title">Calendar</h1>
+      <h1 class="landing-title">Meetly</h1>
       <p class="landing-subtitle">
         Забронируйте встречу за минуту: выберите тип события и удобное время.
       </p>

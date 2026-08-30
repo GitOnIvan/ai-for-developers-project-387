@@ -21,7 +21,7 @@ describe("LandingPage", () => {
   it("показывает главный заголовок и подзаголовок оффера", async () => {
     await renderPage();
     expect(
-      screen.getByRole("heading", { level: 1, name: "Calendar" }),
+      screen.getByRole("heading", { level: 1, name: "Meetly" }),
     ).toBeInTheDocument();
     expect(
       screen.getByText(/Забронируйте встречу за минуту/),
