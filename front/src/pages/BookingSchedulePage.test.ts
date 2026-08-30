@@ -59,8 +59,8 @@ describe("BookingSchedulePage", () => {
     expect(continueButton).toBeDisabled();
   });
 
-  it("после выбора слота активирует продолжить и переходит на форму", async () => {
-    const { router } = await renderPage();
+  it("после выбора слота активирует продолжить и открывает модалку с формой", async () => {
+    await renderPage();
     await screen.findByRole("region", { name: "Календарь" });
     await selectFirstAvailableDay();
 
@@ -73,11 +73,55 @@ describe("BookingSchedulePage", () => {
     expect(continueButton).toBeEnabled();
     await userEvent.click(continueButton);
 
-    await waitFor(() => {
-      expect(router.currentRoute.value.name).toBe("bookingConfirm");
+    const dialog = await screen.findByRole("dialog");
+    expect(dialog).toBeInTheDocument();
+    expect(
+      await screen.findByRole("heading", { name: "Ваши данные" }),
+    ).toBeInTheDocument();
+    expect(screen.getByLabelText("Имя")).toBeInTheDocument();
+    expect(screen.getByLabelText("Email")).toBeInTheDocument();
+  });
+
+  it("после заполнения формы в модалке переходит на страницу подтверждения", async () => {
+    const { router } = await renderPage();
+    await screen.findByRole("region", { name: "Календарь" });
+    await selectFirstAvailableDay();
+
+    const slotButtons = await screen.findAllByRole("button", {
+      name: /^\d{2}:\d{2}$/,
     });
-    expect(router.currentRoute.value.query.slotStart).toBeTruthy();
-    expect(router.currentRoute.value.query.slotEnd).toBeTruthy();
+    await userEvent.click(slotButtons[0]);
+    await userEvent.click(screen.getByRole("button", { name: /Продолжить/ }));
+
+    await screen.findByRole("dialog");
+    await userEvent.type(screen.getByLabelText("Имя"), "Мария");
+    await userEvent.type(screen.getByLabelText("Email"), "maria@example.com");
+    await userEvent.click(screen.getByRole("button", { name: /Записаться/ }));
+
+    await waitFor(() => {
+      expect(router.currentRoute.value.name).toBe("confirmation");
+    });
+    expect(router.currentRoute.value.params.id).toBeTruthy();
+  });
+
+  it("модалку можно закрыть, оставаясь на странице выбора слота", async () => {
+    const { router } = await renderPage();
+    await screen.findByRole("region", { name: "Календарь" });
+    await selectFirstAvailableDay();
+
+    const slotButtons = await screen.findAllByRole("button", {
+      name: /^\d{2}:\d{2}$/,
+    });
+    await userEvent.click(slotButtons[0]);
+    await userEvent.click(screen.getByRole("button", { name: /Продолжить/ }));
+
+    await screen.findByRole("dialog");
+    await userEvent.click(screen.getByRole("button", { name: /Закрыть/ }));
+
+    await waitFor(() => {
+      expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+    });
+    expect(router.currentRoute.value.name).toBe("bookingSchedule");
   });
 
   it("кнопка назад возвращает на выбор типа", async () => {

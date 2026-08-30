@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import { computed, ref, onMounted } from "vue";
 import { useRoute, useRouter } from "vue-router";
-import type { EventType, Slot } from "../api/generated";
+import type { Booking, EventType, Slot } from "../api/generated";
 import { api } from "../api/client";
 import AvailabilityCalendar from "../components/AvailabilityCalendar.vue";
+import BaseModal from "../components/BaseModal.vue";
+import BookingForm from "../components/BookingForm.vue";
 import EventSummary from "../components/EventSummary.vue";
 import SlotPicker from "../components/SlotPicker.vue";
 
@@ -20,6 +22,7 @@ const selectedDate = ref<string | null>(null);
 const slots = ref<Slot[]>([]);
 const slotsLoading = ref(false);
 const selectedSlot = ref<Slot | null>(null);
+const showConfirm = ref(false);
 
 onMounted(async () => {
   const res = await api.eventTypesList();
@@ -48,14 +51,11 @@ function goBack() {
 
 function goConfirm() {
   if (!selectedSlot.value) return;
-  router.push({
-    name: "bookingConfirm",
-    params: { eventTypeId },
-    query: {
-      slotStart: selectedSlot.value.start,
-      slotEnd: selectedSlot.value.end,
-    },
-  });
+  showConfirm.value = true;
+}
+
+function onBooked(booking: Booking) {
+  router.push({ name: "confirmation", params: { id: booking.id } });
 }
 </script>
 
@@ -91,5 +91,17 @@ function goConfirm() {
         </button>
       </div>
     </section>
+
+    <BaseModal
+      v-if="showConfirm && selectedSlot"
+      title="Подтвердите запись"
+      @close="showConfirm = false"
+    >
+      <BookingForm
+        :event-type-id="eventTypeId"
+        :slot="selectedSlot"
+        @booked="onBooked"
+      />
+    </BaseModal>
   </div>
 </template>

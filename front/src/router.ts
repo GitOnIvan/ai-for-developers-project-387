@@ -14,11 +14,6 @@ export const routes = [
     component: () => import("./pages/BookingSchedulePage.vue"),
   },
   {
-    path: "/booking/:eventTypeId/confirm",
-    name: "bookingConfirm",
-    component: () => import("./pages/BookingConfirmPage.vue"),
-  },
-  {
     path: "/confirmation/:id",
     name: "confirmation",
     component: () => import("./pages/ConfirmationPage.vue"),
