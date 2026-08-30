@@ -12,20 +12,23 @@ const emit = defineEmits<{
 </script>
 
 <template>
-  <section aria-labelledby="et-heading">
-    <h2 id="et-heading">Выберите тип встречи</h2>
-    <ul class="list">
+  <section class="event-type-panel" aria-label="Доступные типы встречи">
+    <ul class="event-type-grid">
       <li v-for="et in eventTypes" :key="et.id">
         <button
           type="button"
-          class="card selectable"
+          class="event-type-card"
           :class="{ selected: et.id === selectedId }"
           :aria-pressed="et.id === selectedId"
           @click="emit('select', et)"
         >
-          <strong>{{ et.name }}</strong>
-          <div class="muted">{{ et.durationMinutes }} мин</div>
-          <div v-if="et.description" class="muted">{{ et.description }}</div>
+          <div class="summary-event-title">
+            <strong>{{ et.name }}</strong>
+            <span v-if="et.durationMinutes" class="tag">
+              {{ et.durationMinutes }} мин
+            </span>
+          </div>
+          <p v-if="et.description" class="muted">{{ et.description }}</p>
         </button>
       </li>
     </ul>

@@ -22,6 +22,16 @@ async function renderPage() {
 }
 
 describe("BookingSelectPage", () => {
+  it("показывает организатора, заголовок выбора типа и скрывает старый тайтл", async () => {
+    await renderPage();
+    expect(await screen.findByText("Организатор")).toBeInTheDocument();
+    expect(screen.getByText("admin")).toBeInTheDocument();
+    expect(
+      screen.getByRole("heading", { name: "Выберите тип встречи" }),
+    ).toBeInTheDocument();
+    expect(screen.queryByText("Записаться на встречу")).not.toBeInTheDocument();
+  });
+
   it("показывает доступные типы встреч", async () => {
     await renderPage();
     expect(await screen.findByText("Быстрый созвон")).toBeInTheDocument();

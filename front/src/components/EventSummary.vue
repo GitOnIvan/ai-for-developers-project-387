@@ -2,6 +2,7 @@
 import { computed } from "vue";
 import type { EventType } from "../api/generated";
 import { DateTimeUtil } from "../utils/datetime";
+import OrganizerSummary from "./OrganizerSummary.vue";
 
 const props = defineProps<{
   eventType: EventType | null;
@@ -22,15 +23,7 @@ const timeLabel = computed(() => {
 
 <template>
   <section class="booking-card" aria-label="Сводка встречи">
-    <div class="summary-block summary-block--divided">
-      <div class="summary-organizer">
-        <span class="summary-avatar" aria-hidden="true">A</span>
-        <div class="summary-organizer-text">
-          <p class="muted">Организатор</p>
-          <p><strong>admin</strong></p>
-        </div>
-      </div>
-    </div>
+    <OrganizerSummary />
 
     <div class="summary-block">
       <div class="summary-event-title">
