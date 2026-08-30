@@ -2,7 +2,8 @@
 import { onBeforeUnmount, onMounted, useId } from "vue";
 
 const props = defineProps<{
-  title: string;
+  title?: string;
+  ariaLabel?: string;
 }>();
 
 const emit = defineEmits<{
@@ -33,10 +34,16 @@ onBeforeUnmount(() => {
         class="modal-panel"
         role="dialog"
         aria-modal="true"
-        :aria-labelledby="titleId"
+        :aria-labelledby="props.title ? titleId : undefined"
+        :aria-label="!props.title ? (props.ariaLabel ?? undefined) : undefined"
       >
-        <div class="modal-header">
-          <h2 :id="titleId" class="modal-title">{{ props.title }}</h2>
+        <div
+          class="modal-header"
+          :class="{ 'modal-header--bare': !props.title }"
+        >
+          <h2 v-if="props.title" :id="titleId" class="modal-title">
+            {{ props.title }}
+          </h2>
           <button
             type="button"
             class="modal-close"

@@ -563,6 +563,11 @@ td {
   margin-bottom: 1rem;
 }
 
+.modal-header--bare {
+  justify-content: flex-end;
+  margin-bottom: 0.25rem;
+}
+
 .modal-title {
   margin: 0;
   font-size: 1.25rem;
@@ -595,6 +600,15 @@ td {
   box-shadow: none;
   padding: 0;
   margin: 0;
+}
+
+.modal-summary.booking-card {
+  height: auto;
+  padding: 0;
+  overflow: visible;
+  box-shadow: none;
+  border-radius: 0;
+  margin-bottom: 1rem;
 }
 
 @media (max-width: 720px) {

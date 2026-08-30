@@ -94,9 +94,16 @@ function onBooked(booking: Booking) {
 
     <BaseModal
       v-if="showConfirm && selectedSlot"
-      title="Подтвердите запись"
+      aria-label="Подтвердите запись"
       @close="showConfirm = false"
     >
+      <EventSummary
+        class="modal-summary"
+        :event-type="eventType"
+        :selected-date="selectedDate"
+        :selected-slot-start="selectedSlot?.start ?? null"
+      />
+
       <BookingForm
         :event-type-id="eventTypeId"
         :slot="selectedSlot"

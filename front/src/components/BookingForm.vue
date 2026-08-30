@@ -3,7 +3,6 @@ import { ref } from "vue";
 import type { AxiosError } from "axios";
 import type { ApiError, Booking, Slot } from "../api/generated";
 import { api } from "../api/client";
-import { DateTimeUtil } from "../utils/datetime";
 
 const props = defineProps<{
   eventTypeId: string;
@@ -60,11 +59,7 @@ async function submit() {
 </script>
 
 <template>
-  <section aria-labelledby="form-heading" class="card">
-    <h2 id="form-heading">Ваши данные</h2>
-    <p class="muted">
-      Выбранное время: {{ DateTimeUtil.formatTime(slot.start) }}
-    </p>
+  <section aria-label="Форма записи">
     <form @submit.prevent="submit">
       <label>
         <span>Имя</span>

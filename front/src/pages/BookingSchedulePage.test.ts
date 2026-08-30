@@ -1,4 +1,4 @@
-import { render, screen, waitFor } from "@testing-library/vue";
+import { render, screen, waitFor, within } from "@testing-library/vue";
 import userEvent from "@testing-library/user-event";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import { createRouter, createMemoryHistory } from "vue-router";
@@ -73,11 +73,14 @@ describe("BookingSchedulePage", () => {
     expect(continueButton).toBeEnabled();
     await userEvent.click(continueButton);
 
-    const dialog = await screen.findByRole("dialog");
+    const dialog = await screen.findByRole("dialog", {
+      name: "Подтвердите запись",
+    });
     expect(dialog).toBeInTheDocument();
-    expect(
-      await screen.findByRole("heading", { name: "Ваши данные" }),
-    ).toBeInTheDocument();
+    expect(within(dialog).getByText("Стандартная встреча")).toBeInTheDocument();
+    expect(within(dialog).getByText("Выбранная дата")).toBeInTheDocument();
+    expect(within(dialog).getByText("Выбранное время")).toBeInTheDocument();
+    expect(within(dialog).getByText("admin")).toBeInTheDocument();
     expect(screen.getByLabelText("Имя")).toBeInTheDocument();
     expect(screen.getByLabelText("Email")).toBeInTheDocument();
   });
