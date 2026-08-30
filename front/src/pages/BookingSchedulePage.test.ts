@@ -110,6 +110,39 @@ describe("BookingSchedulePage", () => {
     expect(router.currentRoute.value.name).toBe("bookingSchedule");
   });
 
+  it("после брони и закрытия модалки забронированный слот исчезает из списка", async () => {
+    await renderPage();
+    await screen.findByRole("region", { name: "Календарь" });
+    await selectFirstAvailableDay();
+
+    const slotButtons = await screen.findAllByRole("button", {
+      name: /^\d{2}:\d{2}$/,
+    });
+    const bookedLabel = slotButtons[0].textContent?.trim() ?? "";
+    const countBefore = slotButtons.length;
+    await userEvent.click(slotButtons[0]);
+    await userEvent.click(screen.getByRole("button", { name: /Продолжить/ }));
+
+    await screen.findByRole("dialog");
+    await userEvent.type(screen.getByLabelText("Имя"), "Мария");
+    await userEvent.type(screen.getByLabelText("Email"), "maria@example.com");
+    await userEvent.click(screen.getByRole("button", { name: /Записаться/ }));
+    await screen.findByText("Встреча забронирована");
+
+    await userEvent.click(screen.getByRole("button", { name: /Закрыть/ }));
+    await waitFor(() => {
+      expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+    });
+
+    await waitFor(() => {
+      const after = screen.queryAllByRole("button", { name: /^\d{2}:\d{2}$/ });
+      expect(after.length).toBeLessThan(countBefore);
+      expect(after.some((b) => b.textContent?.trim() === bookedLabel)).toBe(
+        false,
+      );
+    });
+  });
+
   it("модалку можно закрыть, оставаясь на странице выбора слота", async () => {
     const { router } = await renderPage();
     await screen.findByRole("region", { name: "Календарь" });

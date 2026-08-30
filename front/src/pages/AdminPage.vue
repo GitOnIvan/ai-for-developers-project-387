@@ -5,7 +5,6 @@ import EventTypeManager from "../components/EventTypeManager.vue";
 
 <template>
   <div>
-    <h1>Календарь владельца</h1>
     <BookingsTable />
     <hr />
     <EventTypeManager />

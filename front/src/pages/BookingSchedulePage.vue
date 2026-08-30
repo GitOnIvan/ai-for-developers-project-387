@@ -31,9 +31,7 @@ onMounted(async () => {
   eventTypes.value = res.data;
 });
 
-async function onSelectDate(date: string) {
-  selectedDate.value = date;
-  selectedSlot.value = null;
+async function loadSlots(date: string) {
   slotsLoading.value = true;
   try {
     const res = await api.slotsList({ eventTypeId, date });
@@ -41,6 +39,12 @@ async function onSelectDate(date: string) {
   } finally {
     slotsLoading.value = false;
   }
+}
+
+async function onSelectDate(date: string) {
+  selectedDate.value = date;
+  selectedSlot.value = null;
+  await loadSlots(date);
 }
 
 function onSelectSlot(slot: Slot) {
@@ -62,8 +66,15 @@ function onBooked(booking: Booking) {
 }
 
 function closeConfirm() {
+  const wasBooked = confirmedBooking.value !== null;
   showConfirm.value = false;
   confirmedBooking.value = null;
+  if (wasBooked) {
+    selectedSlot.value = null;
+    if (selectedDate.value) {
+      void loadSlots(selectedDate.value);
+    }
+  }
 }
 </script>
 

@@ -613,7 +613,7 @@ td {
 
 .booking-confirmation-title {
   margin: 0 0 0.75rem;
-  font-size: 1.15rem;
+  font-size: 1rem;
   color: var(--heading);
 }
 
@@ -626,10 +626,13 @@ td {
 
 .booking-confirmation-row {
   display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 1rem;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.15rem;
   margin: 0;
+  padding: 0.75rem 1rem;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #e8ecff 0%, #f3ecff 45%, #fdeee6 100%);
 }
 
 .booking-confirmation-row dt {
@@ -639,7 +642,7 @@ td {
 
 .booking-confirmation-row dd {
   margin: 0;
-  text-align: right;
+  text-align: left;
   color: var(--heading);
   font-weight: 600;
 }
