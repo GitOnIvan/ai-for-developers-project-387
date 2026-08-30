@@ -64,6 +64,7 @@ defineExpose({ allowedDates, loading, loadMonth, onSelect, onUpdateMonthYear });
       v-model="model"
       inline
       auto-apply
+      six-weeks
       :time-config="{ enableTimePicker: false }"
       :config="{ monthChangeOnScroll: false }"
       :min-date="today"

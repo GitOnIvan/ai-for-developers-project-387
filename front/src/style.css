@@ -295,37 +295,13 @@ td {
 }
 
 .calendar-card {
-  --dp-menu-min-width: 100%;
-}
-
-.calendar-card .dp--main,
-.calendar-card .dp--outer-menu-wrap,
-.calendar-card .dp--menu,
-.calendar-card .dp--instance-calendar,
-.calendar-card .dp--menu-inner {
-  width: 100%;
-  max-width: 100%;
-  flex: 1;
-  min-height: 0;
+  justify-content: center;
+  align-items: center;
 }
 
 .calendar-card .dp--menu {
   border: none;
   box-shadow: none;
-  display: flex;
-  flex-direction: column;
-}
-
-.calendar-card .dp--calendar-header,
-.calendar-card .dp--calendar-row {
-  display: flex;
-  width: 100%;
-}
-
-.calendar-card .dp--calendar-header-cell,
-.calendar-card .dp--calendar-row > * {
-  flex: 1;
-  width: auto;
 }
 
 .slot-card {
