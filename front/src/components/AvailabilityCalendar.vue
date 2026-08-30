@@ -65,6 +65,7 @@ defineExpose({ allowedDates, loading, loadMonth, onSelect, onUpdateMonthYear });
       inline
       auto-apply
       six-weeks
+      hide-offset-dates
       :time-config="{ enableTimePicker: false }"
       :config="{ monthChangeOnScroll: false }"
       :min-date="today"
