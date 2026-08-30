@@ -6,7 +6,17 @@ export const routes = [
   {
     path: "/booking",
     name: "booking",
-    component: () => import("./pages/BookingPage.vue"),
+    component: () => import("./pages/BookingSelectPage.vue"),
+  },
+  {
+    path: "/booking/:eventTypeId",
+    name: "bookingSchedule",
+    component: () => import("./pages/BookingSchedulePage.vue"),
+  },
+  {
+    path: "/booking/:eventTypeId/confirm",
+    name: "bookingConfirm",
+    component: () => import("./pages/BookingConfirmPage.vue"),
   },
   {
     path: "/confirmation/:id",

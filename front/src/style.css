@@ -269,3 +269,49 @@ td {
   align-items: flex-end;
   flex-wrap: wrap;
 }
+
+/* Booking wizard layout */
+.booking-layout {
+  display: grid;
+  grid-template-columns: 1fr 1.4fr 1fr;
+  gap: 1.5rem;
+  align-items: start;
+}
+
+.booking-column {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.summary-block {
+  margin-bottom: 1rem;
+}
+
+.summary-block p {
+  margin: 0.25rem 0;
+}
+
+.tag {
+  display: inline-block;
+  background: rgba(242, 122, 48, 0.12);
+  color: var(--accent);
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.2rem 0.5rem;
+  border-radius: 999px;
+}
+
+.booking-actions {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: space-between;
+}
+
+button.text-button {
+  background: transparent;
+  border: none;
+  color: #4b5563;
+  text-decoration: underline;
+  padding: 0.5rem 0;
+}
